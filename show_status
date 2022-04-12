@@ -19,20 +19,22 @@ gitted  = False
 mini    = True
 
 class bcolors:
-	HEADER = '\033[95m'
-	OKBLUE = '\033[94m'
-	OKGREEN = '\033[92m'
-	WARNING = '\033[93m'
-	FAIL = '\033[91m'
-	ENDC = '\033[0m'
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
 
-	def disable(self):
-		self.HEADER = ''
-		self.OKBLUE = ''
-		self.OKGREEN = ''
-		self.WARNING = ''
-		self.FAIL = ''
-		self.ENDC = ''
+    def disable(self):
+        self.HEADER = ''
+        self.OKBLUE = ''
+        self.OKGREEN = ''
+        self.WARNING = ''
+        self.FAIL = ''
+        self.ENDC = ''
+
+#-- END class bcolors --#
 
 parser = OptionParser(description="\
 Show Status is awesome. If you tell it a directory to look in, it'll scan \
@@ -40,7 +42,7 @@ through all the sub dirs looking for a .git directory. When it finds one \
 it'll look to see if there are any changes and let you know. \
 It can also push and pull to/from a remote location (like github.com) \
 (but only if there are no changes.) \
-Contact mike@mikepearce.net for any support.")
+Contact jonathan.morgan.007@gmail.com for any support.")
 parser.add_option("-d", "--dir",
                     dest    = "dirname",
                     action  = "store",
@@ -79,12 +81,15 @@ parser.add_option("-p", "--pull",
 # Now, parse the args
 (options, args) = parser.parse_args()
 
+
 #-------------------
 def show_error(error="Undefined Error!"):
 #-------------------
     """Writes an error to stderr"""
     sys.stderr.write(error)
     sys.exit(1)
+
+#-- END function show_error() --#
 
 
 #-------------------
@@ -119,16 +124,20 @@ if __name__ == "__main__":
                 branch = out[j+10:k];
                 branchColor = bcolors.WARNING;
 
-		if branch == 'master':
-			branchColor = bcolors.OKGREEN
+                if branch == 'master':
 
-		branch = "[ " + branchColor + branch.ljust(15) + bcolors.ENDC + " ]"
+                    branchColor = bcolors.OKGREEN
 
-		if -1 != out.find('nothing'):
+                #-- END - check if master branch --#
+
+                branch = "[ " + branchColor + branch.ljust(15) + bcolors.ENDC + " ]"
+
+                if -1 != out.find('nothing'):
                     result = bcolors.OKGREEN + "No Changes" + bcolors.ENDC
 
                     # Pull from the remote
                     if False != options.pull:
+
                         push = commands.getoutput(
                             'cd '+ infile +
                             '; git pull '+
@@ -136,8 +145,11 @@ if __name__ == "__main__":
                         )
                         result = result + " (Pulled) \n" + push
 
+                    #-- END check if we are to pull --#
+
                     # Push to the remote
                     if False != options.push:
+
                         push = commands.getoutput(
                             'cd '+ infile +
                             '; git push '+
@@ -145,26 +157,39 @@ if __name__ == "__main__":
                         )
                         result = result + " (Pushed) \n" + push
 
-		else:
-		    result = bcolors.FAIL + "Changes" + bcolors.ENDC
+                    #-- END check if we are to push. --#
+
+                else:
+
+                    result = bcolors.FAIL + "Changes" + bcolors.ENDC
+
+                #-- END check if -1 != out.find('nothing'): - check if changes? --#
 
                 # Write to screen
-                sys.stdout.write("-- " + bcolors.OKBLUE + infile.ljust(55) + bcolors.ENDC + branch + " : " + result +"\n")
+                sys.stdout.write( "-- " + bcolors.OKBLUE + infile.ljust(55) + bcolors.ENDC + branch + " : " + result +"\n")
 
             else:
+
                 #Print some repo details
                 sys.stdout.write("\n---------------- "+ infile +" -----------------\n")
                 sys.stdout.write(out)
                 sys.stdout.write("\n---------------- "+ infile +" -----------------\n")
 
+            #-- END check if False == options.verbose: --#
+
             # Come out of the dir and into the next
             commands.getoutput('cd ../')
 
+        #-- END check if ".git" folder (if it is a git repo) --#
 
+    #-- END for loop over directories in work directory path. --#
 
+    if ( False == gitted ):
 
-    if False == gitted:
         show_error("Error: None of those sub directories had a .git file.\n")
+
+    #-- END check if "gitted" --#
 
     sys.stdout.write("Done\n")
 
+#-- END if __name__ == "__main__": --#
