@@ -4,6 +4,17 @@ A collection of scripts to help manage folders that contain many git repos.
 
 Also check out: https://github.com/fboender/multi-git-status
 
+## copy-scripts-to.sh
+
+This script copies the other scripts in this folder to a directory whose path you specify as the first parameter when you invoke the script, and sets their permissions so the owner can read and run them. By default, they are not allowed to be written, to make it less likely I will accidentally update them outside the repo and lose changes. Feel free to update permissons once they are copied.
+
+This script assumes you are running it in the folder you checked out, alongside the other scripts here.
+
+Example:
+
+    # copy scripts to parent folder
+    ./copy-scripts-to.sh ..
+
 ## git-find-changes.sh
 
 copy to the folder that holds many git repos, then run the script. It will use `diff-files` and `diff-index` git commands to look for changes not yet staged or committed and output any repos that have changes.
@@ -48,13 +59,13 @@ pull to/from a remote location (like github.com) (but only if there are no
 changes.) Contact jonathan.morgan.007@gmail.com for any support.
 
 Options:
-  -h, --help            show this help message and exit
-  -d DIRNAME, --dir=DIRNAME
-                        The directory to parse sub dirs from
-  -v, --verbose         Show the full detail of git status
-  -r REMOTE, --remote=REMOTE
-                        Push to the master (remotename:branchname)
-  -p PULL, --pull=PULL  Pull from the master (remotename:branchname)
+
+    -h, --help                  show this help message and exit
+    -d DIRNAME, --dir=DIRNAME   The directory to parse sub dirs from
+    -v, --verbose               Show the full detail of git status
+    -r REMOTE, --remote=REMOTE  Push to the master (remotename:branchname)
+    -p PULL, --pull=PULL        Pull from the master (remotename:branchname)
 
 -- Warranties/Guarantees --
+
 None, you're on your own. If you'd like some help, mail me on jonathan.morgan.007@gmail.com

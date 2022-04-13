@@ -26,21 +26,21 @@ then
 
         # ==> git-find-changes.sh
         file_name="git-find-changes.sh"
-        permissions="700"
+        permissions="500"
         echo "- Copying ${file_name}, setting permissions to ${permissions}."
         cp "${my_directory_path}/${file_name}" "${to_directory_path}/"
         chmod ${permissions} "${to_directory_path}/${file_name}"
 
         # ==> git-multi-status.sh
         file_name="git-multi-status.sh"
-        permissions="700"
+        permissions="500"
         echo "- Copying ${file_name}, setting permissions to ${permissions}."
         cp "${my_directory_path}/${file_name}" "${to_directory_path}/"
         chmod ${permissions} "${to_directory_path}/${file_name}"
 
         # ==> show_status.py
         file_name="show_status.py"
-        permissions="600"
+        permissions="400"
         echo "- Copying ${file_name}, setting permissions to ${permissions} (to run: python ./${file_name})."
         cp "${my_directory_path}/${file_name}" "${to_directory_path}/"
         chmod ${permissions} "${to_directory_path}/${file_name}"
