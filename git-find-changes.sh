@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# based on: https://coderwall.com/p/ewz5zq/running-git-status-across-multiple-repos
+
 function unstaged_changes() {
     worktree=${1%/*};
     git --git-dir="$1" --work-tree="$worktree" diff-files --quiet --ignore-submodules --

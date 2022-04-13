@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# based on: https://gist.github.com/c0wfunk/3666392
+
 # usage: $0 source_dir [source_dir] ...
 # where source_dir args are directories containing git repositories
 
