@@ -26,7 +26,7 @@ for i in ${ARGS[@]} ; do
   for gitdir in `find $i -name .git` ; do
     ( working=$(dirname $gitdir)
       cd $working
-      RES=$(git status | grep -E '^# (Changes|Untracked|Your branch)')
+      RES=$(git status | grep -E '^*(Changes|Untracked|Your branch)')
       STAT=""
       grep -e 'Untracked' <<<${RES} >/dev/null 2>&1
       if [ $? -eq 0 ] ; then
