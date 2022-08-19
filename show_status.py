@@ -8,14 +8,39 @@
 # @since    18/05/2010
 
 # Grab some libraries
-import sys
-import os
 import glob
-import subprocess
 from optparse import OptionParser
+import os
+import platform
+import subprocess
+import sys
+
+# CONSTANTS-ish
+OS_NAME_WINDOWS = "nt"
+PLATFORM_SYSTEM_WINDOWS = "Windows"
 
 # Setup some stuff
-dirname = './'
+base_path = os.getcwd()
+path_separator = os.sep
+os_name = os.name
+platform_system = platform.system()
+
+is_windows = None
+#if ( platform_system == PLATFORM_SYSTEM_WINDOWS ):
+if ( os_name == OS_NAME_WINDOWS ):
+
+    is_windows = True
+
+else:
+
+    is_windows = False
+
+#-- END check if windows. --#
+
+# declare variables
+escaped_infile = None
+
+dirname = '.{}'.format( path_separator )
 gitted  = False
 mini    = True
 
@@ -48,7 +73,7 @@ parser.add_option("-d", "--dir",
                     dest    = "dirname",
                     action  = "store",
                     help    = "The directory to parse sub dirs from",
-                    default = os.path.abspath("./")+"/"
+                    default = os.path.abspath( "." ) + path_separator
                     )
 
 parser.add_option("-v", "--verbose",
@@ -97,7 +122,16 @@ def show_error(error="Undefined Error!"):
 # Now, onto the main event!
 #-------------------
 if __name__ == "__main__":
-    os.system('clear')
+    if ( is_windows == True ):
+
+        os.system('cls')
+
+    else:
+
+        os.system('clear')
+
+    #-- END check if windows --#
+
     sys.stdout.write('-- Starting git status...\n')
     os.environ['LANGUAGE'] = 'en_US:en';
     os.environ['LANG'] = 'en_US.UTF-8';
@@ -115,7 +149,20 @@ if __name__ == "__main__":
 
             # OK, contains a .git file. Let's descend into it
             # and ask git for a status
-            out = subprocess.getoutput('cd '+ infile + '; git status')
+            if ( is_windows == True ):
+
+                # windows.
+                escaped_infile = infile.replace( "\\", "\\\\"  )
+                os.chdir( escaped_infile )
+                out = subprocess.getoutput( 'git status' )
+                os.chdir( base_path )
+
+            else:
+
+                # not windows (linux, probably macos, as well).
+                out = subprocess.getoutput('cd ' + infile + '; git status')
+
+            #-- END check if windows. --#
 
             # Mini?
             if False == options.verbose:
